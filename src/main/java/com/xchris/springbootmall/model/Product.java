@@ -1,12 +1,14 @@
 package com.xchris.springbootmall.model;
 
-import java.sql.Timestamp;
+import com.xchris.springbootmall.Constant.ProductCategory;
+
 import java.util.Date;
 
 public class Product {
     private Integer productId;
     private String productName;
-    private String category;
+    // category 用 enum 類型的 ProductCategory 可以知道有多少的商品種類
+    private ProductCategory category;
     private String imageUrl;
     private Integer price;
     private Integer stock;
@@ -30,11 +32,11 @@ public class Product {
         this.productName = productName;
     }
 
-    public String getCategory() {
+    public ProductCategory getCategory() {
         return category;
     }
 
-    public void setCategory(String category) {
+    public void setCategory(ProductCategory category) {
         this.category = category;
     }
 
