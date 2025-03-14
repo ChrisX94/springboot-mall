@@ -3,6 +3,7 @@ package com.xchris.springbootmall.service.impl;
 import com.xchris.springbootmall.dao.ProductDao;
 import com.xchris.springbootmall.model.Product;
 import com.xchris.springbootmall.service.ProductService;
+import dto.ProductRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -15,5 +16,10 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Product getProductById(Integer productId) {
         return productDao.getProductById(productId);
+    }
+
+    @Override
+    public Integer createProduct(ProductRequest productRequest) {
+        return productDao.createProduct(productRequest);
     }
 }
