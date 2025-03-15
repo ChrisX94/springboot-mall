@@ -14,7 +14,7 @@ public class Product {
     private Integer stock;
     private String description;
     private Date createDate;
-    private Date laseModifiedDate;
+    private Date lastModifiedDate;
 
     public Integer getProductId() {
         return productId;
@@ -80,11 +80,11 @@ public class Product {
         this.createDate = createDate;
     }
 
-    public Date getLaseModifiedDate() {
-        return laseModifiedDate;
+    public Date getLastModifiedDate() {
+        return lastModifiedDate;
     }
 
-    public void setLaseModifiedDate(Date laseModifiedDate) {
-        this.laseModifiedDate = laseModifiedDate;
+    public void setLastModifiedDate(Date lastModifiedDate) {
+        this.lastModifiedDate = lastModifiedDate;
     }
 }
