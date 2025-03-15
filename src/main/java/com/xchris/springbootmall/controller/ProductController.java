@@ -1,5 +1,6 @@
 package com.xchris.springbootmall.controller;
 
+import com.xchris.springbootmall.Constant.ProductCategory;
 import com.xchris.springbootmall.model.Product;
 import com.xchris.springbootmall.service.ProductService;
 import dto.ProductRequest;
@@ -19,8 +20,14 @@ public class ProductController {
 
     // 傳送所有商品資訊
     @GetMapping("/products")
-    public ResponseEntity<List<Product>> getProducts(){
-        List<Product> productList = productService.getProducts();
+    public ResponseEntity<List<Product>> getProducts(
+            // 前端可以透過category的參數選擇商品分類, RequestParam(required = false)將category設定成非必要參數
+            @RequestParam(required = false) ProductCategory category,
+            // 這裡設定一個String search去接搜尋的文字參數
+            @RequestParam(required = false) String search
+            ){
+
+        List<Product> productList = productService.getProducts(category, search);
         return ResponseEntity.status(HttpStatus.OK).body(productList);
     }
 
