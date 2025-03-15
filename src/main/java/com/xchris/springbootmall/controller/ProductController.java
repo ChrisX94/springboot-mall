@@ -9,12 +9,24 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 public class ProductController {
 
     @Autowired
     private ProductService productService;
 
+    // 傳送所有商品資訊
+    @GetMapping("/products")
+    public ResponseEntity<List<Product>> getProducts(){
+        List<Product> productList = productService.getProducts();
+        return ResponseEntity.status(HttpStatus.OK).body(productList);
+    }
+
+
+    // CRUD
+    // Read
     @GetMapping("/products/{productId}")
     public ResponseEntity<Product> getProduct(@PathVariable Integer productId) {
         Product product = productService.getProductById(productId);
@@ -26,6 +38,7 @@ public class ProductController {
         }
     }
 
+    // Create
     @PostMapping("/products") // 新增是用Post方法
     // @RequestBody 要接收 request body 要加上這個註解, 要加上@Valid 在ProductRequest中的@NotNull才會生效
     public ResponseEntity<Product> createProduct(@RequestBody @Valid ProductRequest productRequest) {
@@ -34,6 +47,7 @@ public class ProductController {
         return ResponseEntity.status(HttpStatus.CREATED).body(product);
     }
 
+    // Update
     @PutMapping("/products/{productId}")
     public ResponseEntity<Product> updateProduct(@PathVariable Integer productId, // 這裡要去取得要修改的product Id
                                                  @RequestBody @Valid ProductRequest productRequest) { // 這裡是用去取得修改的資訊json
@@ -49,6 +63,7 @@ public class ProductController {
         return ResponseEntity.status(HttpStatus.OK).body(product);
     }
 
+    // Delete
     @DeleteMapping("products/{productId}")
     public ResponseEntity<?> deleteProduct(@PathVariable Integer productId) {
         productService.deleteProductById(productId);
