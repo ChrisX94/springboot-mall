@@ -2,6 +2,7 @@ package com.xchris.springbootmall.dao.impl;
 
 import com.xchris.springbootmall.Constant.ProductCategory;
 import com.xchris.springbootmall.dao.ProductDao;
+import com.xchris.springbootmall.dao.ProductQueryParams;
 import com.xchris.springbootmall.model.Product;
 import com.xchris.springbootmall.rowmapper.ProductRowMapper;
 import dto.ProductRequest;
@@ -24,20 +25,22 @@ public class ProductDaoImpl implements ProductDao {
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
     @Override
-    public List<Product> getProducts(ProductCategory category, String search) {
+    // 這裡用ProductQueryParams的物件作接收修改時只要修改dao 跟ProductQueryParams的物件就好
+    public List<Product> getProducts(ProductQueryParams productQueryParams) {
         String sql = "SELECT product_id, product_name, category, image_url," +
                                 "price, stock, description, created_date, last_modified_date " +
                                 "FROM product WHERE 1=1";
         // WHERE 1=1" 這一段不影響sql，為了能夠用最簡單的方式在後面加上其他查詢的sql,因為有1=1碧唯true所以可以在後面加上 AND 加入其他條件
         Map<String, Object> map = new HashMap<>();
-        if(category != null){ // 這裡是去判斷是否有輸入category的參數
+
+        if(productQueryParams.getCategory() != null){ // 這裡是去判斷是否有輸入category的參數
             sql = sql + " AND category = :category"; // 要接上的字串開頭要加上空白鍵才不會跟前面的黏再一起
-            map.put("category", category.name()); // enum method 要用 .name() 才能轉成字串
+            map.put("category", productQueryParams.getCategory().name()); // enum method 要用 .name() 才能轉成字串
         }
 
-        if(search != null){  // 這裡是去判斷是否有輸入search的參數
+        if(productQueryParams.getSearch() != null){  // 這裡是去判斷是否有輸入search的參數
             sql = sql + " AND product_name LIKE :search";
-            map.put("search", "%" + search + "%"); // % 模糊查詢不能加載sql中，一定要加在這裡當作參數輸入才會生效
+            map.put("search", "%" + productQueryParams.getSearch() + "%"); // % 模糊查詢不能加載sql中，一定要加在這裡當作參數輸入才會生效
         }
 
         List<Product> productList = namedParameterJdbcTemplate.query(sql, map, new ProductRowMapper());
