@@ -109,7 +109,7 @@ public class ProductController {
         //修改商品的數據
         productService.updateProduct(productId, productRequest);
         Product updateProduct = productService.getProductById(productId);
-        return ResponseEntity.status(HttpStatus.OK).body(product);
+        return ResponseEntity.status(HttpStatus.OK).body(updateProduct);
     }
 
     // Delete

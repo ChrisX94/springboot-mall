@@ -44,6 +44,7 @@
             <artifactId>spring-boot-starter-validation</artifactId>
         </dependency>
 
+        <!-- h2 database setting       -->
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
