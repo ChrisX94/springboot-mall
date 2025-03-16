@@ -6,13 +6,17 @@ import com.xchris.springbootmall.model.Product;
 import com.xchris.springbootmall.service.ProductService;
 import dto.ProductRequest;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Validated //加上@Validated 才能讓@Max @Min 生效
 @RestController
 public class ProductController {
 
@@ -32,7 +36,13 @@ public class ProductController {
             // 這裡設定根據什麼欄位排序,這裡有設定defaultValue = "created_date" 做為預設值,如果前端沒有傳參數的話就以預設做為參數
             @RequestParam(defaultValue = "created_date")String orderBy,
             // 這裡是決定要用升序或降序來排序,這裡用降序(desc)作為預設值
-            @RequestParam(defaultValue = "desc")String sort
+            @RequestParam(defaultValue = "desc")String sort,
+
+            //分頁 Pagination
+            // 這裡是用Limit=5的原因是因為在資料量大的狀況下如果不去限制取得的數據會對每次都需要提取大量數據會影響效能
+            @RequestParam(defaultValue = "5")@Max(100) @Min(0) Integer limit, // 這次要取得多少數據@Max(100)最多100 @Min(0)最小0
+            @RequestParam(defaultValue = "0")@Min(0) Integer offset // 要去跳過多少筆數據
+
             ){
 
         // 將前端傳來的參數傳入ProductQueryParams
@@ -41,6 +51,8 @@ public class ProductController {
         productQueryParams.setSearch(search);
         productQueryParams.setOrderBy(orderBy);
         productQueryParams.setSort(sort);
+        productQueryParams.setLimit(limit);
+        productQueryParams.setOffset(offset);
 
 
         // 將參數以物件的方式傳入

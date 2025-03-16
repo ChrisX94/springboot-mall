@@ -32,7 +32,7 @@ public class ProductDaoImpl implements ProductDao {
                                 "FROM product WHERE 1=1";
         // WHERE 1=1" 這一段不影響sql，為了能夠用最簡單的方式在後面加上其他查詢的sql,因為有1=1碧唯true所以可以在後面加上 AND 加入其他條件
         Map<String, Object> map = new HashMap<>();
-
+        //  查詢物件
         if(productQueryParams.getCategory() != null){ // 這裡是去判斷是否有輸入category的參數
             sql = sql + " AND category = :category"; // 要接上的字串開頭要加上空白鍵才不會跟前面的黏再一起
             map.put("category", productQueryParams.getCategory().name()); // enum method 要用 .name() 才能轉成字串
@@ -43,8 +43,14 @@ public class ProductDaoImpl implements ProductDao {
             map.put("search", "%" + productQueryParams.getSearch() + "%"); // % 模糊查詢不能加載sql中，一定要加在這裡當作參數輸入才會生效
         }
 
+        // 排序
         // 這裡有裡只能用字串拼接方式去做不能用輸入變數的方式, 因為有預設值所以不用在加上條件是檢查
         sql = sql + " ORDER BY " + productQueryParams.getOrderBy() + " " + productQueryParams.getSort();
+
+        // 分頁
+        sql = sql + " LIMIT :limit OFFSET :offset";
+        map.put("limit", productQueryParams.getLimit());
+        map.put("offset", productQueryParams.getOffset());
 
         List<Product> productList = namedParameterJdbcTemplate.query(sql, map, new ProductRowMapper());
         return productList;
