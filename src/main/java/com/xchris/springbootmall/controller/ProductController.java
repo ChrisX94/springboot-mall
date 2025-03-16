@@ -1,7 +1,7 @@
 package com.xchris.springbootmall.controller;
 
 import com.xchris.springbootmall.Constant.ProductCategory;
-import com.xchris.springbootmall.dao.ProductQueryParams;
+import dto.ProductQueryParams;
 import com.xchris.springbootmall.model.Product;
 import com.xchris.springbootmall.service.ProductService;
 import com.xchris.springbootmall.util.Page;

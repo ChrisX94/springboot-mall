@@ -1,4 +1,4 @@
-package com.xchris.springbootmall.dao;
+package dto;
 
 import com.xchris.springbootmall.Constant.ProductCategory;
 

@@ -1,8 +1,7 @@
 package com.xchris.springbootmall.dao.impl;
 
-import com.xchris.springbootmall.Constant.ProductCategory;
 import com.xchris.springbootmall.dao.ProductDao;
-import com.xchris.springbootmall.dao.ProductQueryParams;
+import dto.ProductQueryParams;
 import com.xchris.springbootmall.model.Product;
 import com.xchris.springbootmall.rowmapper.ProductRowMapper;
 import dto.ProductRequest;

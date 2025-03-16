@@ -1,7 +1,7 @@
 package com.xchris.springbootmall.dao;
 
-import com.xchris.springbootmall.Constant.ProductCategory;
 import com.xchris.springbootmall.model.Product;
+import dto.ProductQueryParams;
 import dto.ProductRequest;
 
 import java.util.List;

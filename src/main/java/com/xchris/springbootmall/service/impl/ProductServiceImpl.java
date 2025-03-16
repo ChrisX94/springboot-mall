@@ -2,7 +2,7 @@ package com.xchris.springbootmall.service.impl;
 
 
 import com.xchris.springbootmall.dao.ProductDao;
-import com.xchris.springbootmall.dao.ProductQueryParams;
+import dto.ProductQueryParams;
 import com.xchris.springbootmall.model.Product;
 import com.xchris.springbootmall.service.ProductService;
 import dto.ProductRequest;
