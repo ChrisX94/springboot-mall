@@ -25,12 +25,33 @@ public class ProductDaoImpl implements ProductDao {
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
     @Override
+    public Integer countProduct(ProductQueryParams productQueryParams) {
+        String sql = "SELECT COUNT(*) FROM product WHERE 1=1";
+
+        Map<String, Object> map = new HashMap<>();
+
+        //  查詢物件
+        if(productQueryParams.getCategory() != null){ // 這裡是去判斷是否有輸入category的參數
+            sql = sql + " AND category = :category"; // 要接上的字串開頭要加上空白鍵才不會跟前面的黏再一起
+            map.put("category", productQueryParams.getCategory().name()); // enum method 要用 .name() 才能轉成字串
+        }
+        if(productQueryParams.getSearch() != null){  // 這裡是去判斷是否有輸入search的參數
+            sql = sql + " AND product_name LIKE :search";
+            map.put("search", "%" + productQueryParams.getSearch() + "%"); // % 模糊查詢不能加載sql中，一定要加在這裡當作參數輸入才會生效
+        }
+        // namedParameterJdbcTemplate.queryForObject 常用在曲count的值, 最後一個參數是表示要回傳一個int的返回值
+        Integer total = namedParameterJdbcTemplate.queryForObject(sql, map,Integer.class);
+
+        return total;
+    }
+
+    @Override
     // 這裡用ProductQueryParams的物件作接收修改時只要修改dao 跟ProductQueryParams的物件
     public List<Product> getProducts(ProductQueryParams productQueryParams) {
         String sql = "SELECT product_id, product_name, category, image_url," +
                                 "price, stock, description, created_date, last_modified_date " +
                                 "FROM product WHERE 1=1";
-        // WHERE 1=1" 這一段不影響sql，為了能夠用最簡單的方式在後面加上其他查詢的sql,因為有1=1碧唯true所以可以在後面加上 AND 加入其他條件
+        // WHERE 1=1" 這一段不影響sql，為了能夠用最簡單的方式在後面加上其他查詢的sql,因為有1=1回傳true所以可以在後面加上 AND 加入其他條件
         Map<String, Object> map = new HashMap<>();
         //  查詢物件
         if(productQueryParams.getCategory() != null){ // 這裡是去判斷是否有輸入category的參數

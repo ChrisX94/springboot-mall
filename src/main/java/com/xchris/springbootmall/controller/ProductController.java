@@ -4,6 +4,7 @@ import com.xchris.springbootmall.Constant.ProductCategory;
 import com.xchris.springbootmall.dao.ProductQueryParams;
 import com.xchris.springbootmall.model.Product;
 import com.xchris.springbootmall.service.ProductService;
+import com.xchris.springbootmall.util.Page;
 import dto.ProductRequest;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Max;
@@ -25,7 +26,7 @@ public class ProductController {
 
     // 傳送所有商品資訊
     @GetMapping("/products")
-    public ResponseEntity<List<Product>> getProducts(
+    public ResponseEntity<Page<Product>> getProducts(
             // 查詢條件 Filtering
             // 前端可以透過category的參數選擇商品分類, RequestParam(required = false)將category設定成非必要參數
             @RequestParam(required = false) ProductCategory category,
@@ -55,9 +56,21 @@ public class ProductController {
         productQueryParams.setOffset(offset);
 
 
-        // 將參數以物件的方式傳入
+        // 將參數以物件的方式傳入去取得product list
         List<Product> productList = productService.getProducts(productQueryParams);
-        return ResponseEntity.status(HttpStatus.OK).body(productList);
+
+        // 呼叫productService.countProduct(productQueryParams)去取得商品總比數
+        Integer total = productService.countProduct(productQueryParams);
+
+        //分頁
+        Page<Product> page = new Page<>();
+        page.setLimit(limit);
+        page.setOffset(offset);
+        page.setTotal(total);
+        // 這裡是將查詢到的數據回傳到前端
+        page.setResult(productList);
+        // response body 回傳page
+        return ResponseEntity.status(HttpStatus.OK).body(page);
     }
 
 
