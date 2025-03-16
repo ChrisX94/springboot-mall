@@ -22,16 +22,26 @@ public class ProductController {
     // 傳送所有商品資訊
     @GetMapping("/products")
     public ResponseEntity<List<Product>> getProducts(
+            // 查詢條件 Filtering
             // 前端可以透過category的參數選擇商品分類, RequestParam(required = false)將category設定成非必要參數
             @RequestParam(required = false) ProductCategory category,
             // 這裡設定一個String search去接搜尋的文字參數
-            @RequestParam(required = false) String search
+            @RequestParam(required = false) String search,
+
+            // 排序 Sorting
+            // 這裡設定根據什麼欄位排序,這裡有設定defaultValue = "created_date" 做為預設值,如果前端沒有傳參數的話就以預設做為參數
+            @RequestParam(defaultValue = "created_date")String orderBy,
+            // 這裡是決定要用升序或降序來排序,這裡用降序(desc)作為預設值
+            @RequestParam(defaultValue = "desc")String sort
             ){
 
         // 將前端傳來的參數傳入ProductQueryParams
         ProductQueryParams productQueryParams = new ProductQueryParams();
         productQueryParams.setCategory(category);
         productQueryParams.setSearch(search);
+        productQueryParams.setOrderBy(orderBy);
+        productQueryParams.setSort(sort);
+
 
         // 將參數以物件的方式傳入
         List<Product> productList = productService.getProducts(productQueryParams);
