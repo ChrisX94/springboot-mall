@@ -1,12 +1,22 @@
 package com.xchris.springbootmall.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.Date;
 
 public class User {
 
     private Integer userId;
+
+    // @JsonProperty("e_mail") 加上這個註解，當Spring Boot 將 User class轉換成Json格式時，會將email變數的key轉換成是e_mail
+    // @JsonProperty("e_mail")
     private String email;
+
+    // @JsonIgnore 當Spring Boot在轉換User object為json格式時，會去乎略有@JsonIgnore的變數，也就不會回傳給前端
+    @JsonIgnore
     private String password;
+
     private Date createTime;
     private Date lastModifiedDate;
 
