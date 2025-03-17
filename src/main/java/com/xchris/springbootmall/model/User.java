@@ -17,7 +17,7 @@ public class User {
     @JsonIgnore
     private String password;
 
-    private Date createTime;
+    private Date createdDate;
     private Date lastModifiedDate;
 
 
@@ -45,12 +45,12 @@ public class User {
         this.password = password;
     }
 
-    public Date getCreateTime() {
-        return createTime;
+    public Date getCreatedDate() {
+        return createdDate;
     }
 
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
+    public void setCreatedDate(Date createdDate) {
+        this.createdDate = createdDate;
     }
 
     public Date getLastModifiedDate() {
