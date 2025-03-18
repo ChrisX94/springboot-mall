@@ -2,6 +2,7 @@ package com.xchris.springbootmall.service.impl;
 
 import com.xchris.springbootmall.dao.OrderDao;
 import com.xchris.springbootmall.dao.ProductDao;
+import com.xchris.springbootmall.model.Order;
 import com.xchris.springbootmall.model.OrderItem;
 import com.xchris.springbootmall.model.Product;
 import com.xchris.springbootmall.service.OrderService;
@@ -28,6 +29,15 @@ public class OrderServiceImpl implements OrderService {
 
     @Autowired
     private OrderDao orderDao;
+
+    @Override
+    public Order getOrderById(Integer orderId) {
+        Order order = orderDao.getOrderById(orderId);
+        List<OrderItem> orderItemList = orderDao.getOrderItemsByOrderId(orderId);
+
+        order.setOrderItemList(orderItemList);
+        return order;
+    }
 
     @Transactional
     @Override

@@ -1,5 +1,6 @@
 package com.xchris.springbootmall.controller;
 
+import com.xchris.springbootmall.model.Order;
 import com.xchris.springbootmall.service.OrderService;
 import dto.CreateOrderRequest;
 import jakarta.validation.Valid;
@@ -23,6 +24,8 @@ public class OrderController {
 
         Integer orderId = orderService.createOrder(userId, createOrderRequest);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(orderId);
+        Order order = orderService.getOrderById(orderId);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(order);
     }
 }
