@@ -22,7 +22,7 @@ public class OrderController {
     private OrderService orderService;
 
     @GetMapping("/users/{userId}/orders")
-    public ResponseEntity<List<Order>> getOrders(@PathVariable Integer userId,
+    public ResponseEntity<Page<Order>> getOrders(@PathVariable Integer userId,
                                                  @RequestParam(defaultValue = "10") @Max(1000) @Min(0) Integer limit,
                                                  @RequestParam(defaultValue = "0") @Min(0) Integer offset
     ){
@@ -44,7 +44,7 @@ public class OrderController {
         page.setTotal(count);
         page.setResult(orderList);
 
-        return ResponseEntity.status(HttpStatus.OK).body(page.getResult());
+        return ResponseEntity.status(HttpStatus.OK).body(page);
     }
 
     @PostMapping("/users/{userId}/orders")

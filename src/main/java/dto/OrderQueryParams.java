@@ -2,7 +2,7 @@ package dto;
 
 public class OrderQueryParams {
     private Integer userId;
-    private Integer Limit;
+    private Integer limit;
     private Integer Offset;
 
     public Integer getUserId() {
@@ -14,11 +14,11 @@ public class OrderQueryParams {
     }
 
     public Integer getLimit() {
-        return Limit;
+        return limit;
     }
 
     public void setLimit(Integer limit) {
-        Limit = limit;
+        this.limit = limit;
     }
 
     public Integer getOffset() {
